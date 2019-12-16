@@ -1,9 +1,5 @@
 require('./index.html');
 require('./index.scss');
 
-import './App';
-
-document.querySelector('.app').innerHTML = `<ml-app name="world!"></ml-app>`;
-setTimeout(() => {
-    document.querySelector('.app').innerHTML = `<ml-app name="Yikes!"></ml-app>`;
-}, 2000);
+import './components/App';
+// https://blog.bitsrc.io/can-you-build-web-apps-in-2019-without-a-framework-1065ad82b79f

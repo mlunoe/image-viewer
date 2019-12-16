@@ -11,7 +11,7 @@
   },
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --progress --colors",
-    "deploy": "rm -rf dist && NODE_ENV=production webpack -p",
+    "dist": "rm -rf dist && NODE_ENV=production webpack -p",
     "test": "eslint . && nyc mocha src/**/__tests__/* src/**/__tests__/**/*"
   },
   "devDependencies": {
