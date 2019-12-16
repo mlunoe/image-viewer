@@ -9,23 +9,15 @@ export default class SearchBar extends HTMLElement {
   constructor() {
     super();
 
-    const shadowRoot = this.attachShadow({ mode: 'open' });
-    this.render(shadowRoot);
+    this.attachShadow({ mode: 'open' });
+    this.render();
   }
 
-  static get observedAttributes() {
-    return ['buttonName'];
+  disconnectedCallback() {
+    this.shadowRoot.querySelector('form').removeEventListener('submit');
   }
 
-  attributeChangedCallback(name, prevValue, value) {
-    if (prevValue === value) {
-      return;
-    }
-
-    this.shadowRoot.querySelector(`.${name}`).innerText = value;
-  }
-
-  render(shadowRoot) {
+  render() {
     const template = document.createElement('template');
     template.innerHTML = `
       <style>
@@ -82,10 +74,14 @@ export default class SearchBar extends HTMLElement {
         </form>
       </div>
     `;
-    shadowRoot.appendChild(template.content.cloneNode(true));
-    shadowRoot.querySelector('form').addEventListener('submit', async (event) => {
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
+    this.shadowRoot.querySelector('form').addEventListener('submit', async (event) => {
       event.preventDefault();
-      const images = await fetchImages(shadowRoot.querySelector('input').value);
+      const images = await fetchImages(this.shadowRoot.querySelector('input').value);
+      if (!images || !Array.isArray(images.items) || images.items.length === 0) {
+        alert('Did not find any images. Please try a different search query.');
+        return;
+      }
       this.dispatchEvent(new CustomEvent('submit', { detail: images }));
     }, false);
   }

@@ -8,6 +8,10 @@ export default class App extends HTMLElement {
     this.render();
   }
 
+  disconnectedCallback() {
+    this.shadowRoot.querySelector('ml-search-bar').removeEventListener('submit');
+  }
+
   render() {
     const template = document.createElement('template');
     template.innerHTML = `

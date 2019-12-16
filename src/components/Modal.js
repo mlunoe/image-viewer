@@ -1,3 +1,5 @@
+import keyCodes from "../utils/keyCodes";
+
 export default class Modal extends HTMLElement {
   constructor() {
     super();
@@ -17,7 +19,13 @@ export default class Modal extends HTMLElement {
 
   renderContent() {
     this.shadowRoot.querySelector('.content-placeholder').innerHTML = this._content;
-    this.shadowRoot.querySelector('.modal').classList.toggle('show-modal');
+    this.shadowRoot.querySelector('.modal').classList.add('show-modal');
+  }
+
+  disconnectedCallback() {
+    const closeButton = this.shadowRoot.querySelector('.close-button');
+    closeButton.removeEventListener('click');
+    document.removeEventListener('keydown');
   }
 
   render() {
@@ -83,8 +91,8 @@ export default class Modal extends HTMLElement {
       </div>
     `;
     this.shadowRoot.appendChild(template.content.cloneNode(true));
-    const modal = this.shadowRoot.querySelector('.modal');
     const closeButton = this.shadowRoot.querySelector('.close-button');
+    const modal = this.shadowRoot.querySelector('.modal');
 
     function toggleModal() {
       modal.classList.toggle('show-modal');
@@ -92,11 +100,12 @@ export default class Modal extends HTMLElement {
 
     // Attach event listeners
     closeButton.addEventListener('click', toggleModal);
-    window.addEventListener('click', (event) => {
-      if (event.target === modal) {
+    document.addEventListener('keydown', (event) => {
+      const { keyCode } = event;
+      if (keyCode === keyCodes.esc) {
         toggleModal();
       }
-    })
+    });
   }
 }
 

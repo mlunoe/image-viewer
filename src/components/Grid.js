@@ -103,10 +103,11 @@ export default class Grid extends HTMLElement {
         node = node.parentNode;
       }
 
-      const src = node.getAttribute('data-src');
-      if (typeof src !== 'string') {
-        // TODO: Handle error
-        console.error('Did not find node with data-src');
+      let src = '';
+      if (typeof node.getAttribute === 'function') {
+        src = node.getAttribute('data-src');
+      }
+      if (!src) {
         return;
       }
       this.dispatchEvent(new CustomEvent('click', { detail: src }));
