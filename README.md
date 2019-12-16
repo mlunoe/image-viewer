@@ -27,7 +27,8 @@ See it running here [https://mlunoe.github.io/image-viewer](https://mlunoe.githu
 - This application is built without Babel polyfill or any JavaScript framework or libraries
 - There is still some polish left to do there for it to be super appealing visually
 - Using JSONP, which is a hacky way of working around cross origin issues (it also has the problem of not being cancellable and not handling errors very well). This app should really have its own server to request content from
-- A bug where the image viewer re-displays after closing it and hitting an arrow key
+- A bug where the image viewer re-appears after closing it and hitting an arrow key
+- A bug where the the modal re-appears when hitting the esc key when the modal is closed
 - Very rudimentary error handling in the application
 - Images that do not follow the 9/16 ratio get cut off in thumbnails and modal to fit the ratio, in order to make the elements look nice
 
